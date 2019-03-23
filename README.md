@@ -1,59 +1,1 @@
-# Peer---to---Peer-Distributed-
-
-PROJECT REPORT
-Group Information
-1. Niraja Ganpule : UFID 17451951
-2. Harshal Patil : UFID 55528581
-
-
-Project Description
-The main goal of this project is to implement Gossip and Push-sum algorithms which can be used for group communication as well as aggregate computation. In this project we have implemented these algorithms to run on the following topologies
-1. Fully connected network
-In a fully connected network all the nodes are connected to each other, every node knows every other node in the network.
-2. Line topology
-In a line topology, all nodes except the nodes at the two ends of the line will have exactly 2 neighbors, that is one on each side. The nodes at the end-points of the line will have only 1 neighbor.
-3. Imperfect line
-In this topology, each node has the same neighbors as in the line topology. Additionally, each node will have one more neighbor that will be randomly selected from the total number of nodes.
-4. Random 2D grid
-This topology consists of randomly distributed nodes on a grid of size [0-1.0] X [0-1.0]
-The neighbors of each node will be all points that are at a distance of 0.1 or lesser from the node.
-5. 3D Grid
-In this topology, the nodes form a 3D grid. The neighbors of each node are the grid neighbors of that node.
-6. Torus
-In this topology, the nodes form a torus. The neighbors of each node are the torus neighbors.
-The following algorithms have been implemented in this project
-1. Gossip Algorithm for information propagation
-The Gossip algorithm involves the following:
-• Starting: A participant(actor) it told/sent a rumor(fact) by the main process
-• Step: Each actor selects a random neighbor and tells it the rumor
-• Termination: Each actor keeps track of rumors and how many times it has heard the rumor. It stops transmitting once it has heard the rumor 10
-2. Push-sum Algorithm
-The Push-sum algorithm is specified as:
-• State: Each actor Ai maintains two quantities: s and w. Initially, s = i (that is actor number i has value i,) and w = 1
-• Starting: Ask one of the actors to start from the main process.
-• Receive: Messages sent and received are pairs of the form (s, w).
-• Upon receive, an actor should add received pair to its own corresponding values. Upon receive, each actor selects a random neighbor and sends it a message.
-• Send: When sending a message to another actor, half of s and w is kept by the sending actor and half is placed in the message being sent to the selected actor, the actor also sends the same message to itself (as stated in the paper)
-• Sum estimate: At any given moment of time, the sum estimate is s/w where s and w are the current values of an actor.
-• Termination: If s/w ratio of any actor did not change more than 10−10 in 3 consecutive rounds the actor terminates.
-Running the code
-Build
-The code can be built by opening a terminal in the project directory and typing : mix escipt.build
-Run
-To run, enter the command escript proj2 <numberofnodes> <topology> <algorithm>
-1. numberofnodes can be any natural number
-2. topology is one of : full , line, impline ,rand2D,3D,torus
-3. algorithm is one of : gossip, push-sum
-Implementation
-1. Main.ex
-This file is the entry point to the code , containg the main method . It parses the commandline input and based on input it makes a function call to the corresponding function for that algorithm and topology combination
-2. Logic.ex
-This file contains the math for every protocol and topology combination.
-Based on the input, the topology is built and the appropriate algorithm is run on this topology.
-Besides the code for detecting how many of the actors reached their converging criteria and for displaying the time required for this convergence in milliseconds is housed in this file.
-3. Gserver.ex
-This file contains the business logic for each actor for the push-sum protocol.
-It contains code regarding how the actor is spawned, how it is initialized, what it does when it receives a message,how it checks if it has achieved the convergence criteria and what it does once this happens.
-4. Pserver.ex
-This file contains the business logic for each actor for the Gossip protocol.
-It contains code regarding how the actor is spawned, how it is initialized, what it does when it receives a message,how it checks if it has achieved the convergence criteria and what it does once this happens.
+					READMEGROUP INFORMATION:Number     Member names          UFID 1        	       Niraja Ganpule      	17451951 2                   Harshal Patil     	55528581PROBLEM DEFINITIONImplement Gossip and Push-sum algorithm for Fully connected, line, 3D, Imperfect line, torus and random 2D topologies in Elixir using the actor model.InputThe Input to the program will be number of nodes, topology and the algorithmExample Input : "escript proj2 1000 full gossip"OutputThe program will tell all the nodes that converged and will give a not converged if a particular node does not converge. The program in the end will give the time for convergence for all the nodes together.INSTRUCTIONSThe name of the submitted zip file is niraja_harshal.zip, unzip this fileand go into the unzipped folder. Here, go into the folder proj2.To run the application, open a terminal in the folder "proj2". This is the application root directory of the Mix project created.On the terminal, the application can be built with the command :  mix escipt.buildRunTo run, enter the command escript proj2 <numberofnodes> <topology> <algorithm>1.    numberofnodes can be  any natural number2.    topology is one of  : full , line, impline ,rand2D,3D,torus3.    algorithm is one of : gossip,push-sumWHAT IS WORKING 1.	All topologies have been implemented successfully for both algorithms2.	For the gossip algorithm, we see 100 per cent convergence for all the topologies 3.	The random 2D topology may face trouble for a small number of nodes while running the Gossip algorithm since with lesser nodes distributed over a [0-1.0] X [0-1.0] grid it is possible that a node may not have a neighbor within 0.1 distance.4.	In the push-sum algorithm, we see convergence for all the topologies5.	The line topology may have a hard time converging for a large number of nodes since a node for which all neighbors have converged will be starved forever or due to deadlocks6.	Push-sum as an algorithm takes more time to converge than gossip since it takes longer for the sum to propagate from one end of the network to anotherLARGEST NETWORK MANAGED1.	For Gossipa.	For Imperfect line, the maximum input converged was 100000b.	For Fully connected network, the maximum converged input was 50000c.	For Torus grid network, the maximum converged input was 100000d.	For Line network, the maximum converged input was 100000e.	For Random 2D network, the maximum converged input was 50000f.	For 3D the maximum converged input was 1000002.	For Push-Sumg.	For Imperfect line, the maximum input converged was 100000h.	For Fully connected network, the maximum converged input was 10000i.	For Torus grid network, the maximum converged input was 100000j.	For Line network, the maximum converged input was 1000k.	For Random 2D network, the maximum converged input was 10000l.	For 3D the maximum converged input was 100000
